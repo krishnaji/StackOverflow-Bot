@@ -302,3 +302,5 @@ jspm_packages
 .node_repl_history
 .vscode
 StackBot/.env
+StackBot/.vscode
+StackBot/node_modules
