@@ -1,4 +1,5 @@
-# Stack Overflow Bot
+# Stack Overflow Bot   
+[<img src="https://fancycloud.visualstudio.com/_apis/public/build/definitions/790ce4a9-efb4-45af-8c60-b1051c1f726f/30/badge"/>](https://fancycloud.visualstudio.com/StackOverflow-Bot/_build/index?definitionId=30)
 
 This Bot is intended to demonstrate a number of integrations between Microsoft Bot Framework, and Microsoft's Cognitive Services. From Microsoft's Cognitive Services, this bot uses: Bing Custom Search, Language Understanding Intelligence Service (LUIS), QnA Maker, and Text Analytics. The full range of cognitive services that Microsoft offers can be viewed here: https://azure.microsoft.com/en-us/services/cognitive-services/.
 
@@ -187,4 +188,4 @@ own pane to the right.
 
 ## License
 
-MIT. See LICENSE file.
+MIT. See LICENSE file. 
