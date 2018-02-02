@@ -187,4 +187,4 @@ own pane to the right.
 
 ## License
 
-MIT. See LICENSE file.
+MIT. See LICENSE file. 
