@@ -5,7 +5,7 @@ global.promise = require('bluebird');
 global.request = require('request-promise');
 require('dotenv').config()
 // this is to just show change.
-// Misc.
+// Misc.1
 global.attachments = require('./lib/attachments');
 global.jokes = require('./data/jokes.json');
 
