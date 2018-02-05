@@ -1,4 +1,11 @@
-FROM node:8-onbuild
-EXPOSE 3978
+FROM node:8
+WORKDIR /usr/src/app
+
+COPY package.json .
+COPY . .
+
+EXPOSE 80
+EXPOSE 443
+
 RUN npm install
-CMD ["npm", "run", "start"]
+CMD ["npm", "start"]
