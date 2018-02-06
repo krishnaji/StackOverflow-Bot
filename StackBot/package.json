@@ -9,6 +9,7 @@
   "author": "Microsoft Inc.",
   "license": "MIT",
   "dependencies": {
+    "applicationinsights": "^1.0.1",
     "botbuilder": "^3.9.0",
     "bunyan": "^1.8.12",
     "devnull": "0.0.12",

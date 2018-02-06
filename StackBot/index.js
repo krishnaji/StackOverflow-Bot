@@ -4,6 +4,10 @@ global.lodash = require('lodash');
 global.promise = require('bluebird');
 global.request = require('request-promise');
 require('dotenv').config()
+const appInsights = require("applicationinsights");
+appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY);
+appInsights.start();
+
 // this is to just show change.
 // Misc.1
 global.attachments = require('./lib/attachments');
@@ -54,7 +58,7 @@ if (!(BOTBUILDER_APP_ID &&
 
 console.log(BOTBUILDER_APP_ID, BOTBUILDER_APP_PASSWORD, 
     LUIS_MODEL, KB_ID, QNA_KEY, QNA_URL, BING_SEARCH_CONFIG, BING_SEARCH_KEY, 
-    TEXT_ANALYTICS_KEY, TEXT_ANALYTICS_URL, DIALOG_ANALYZER_CLIENTID, DIALOG_ANALYZER_KEY , DIALOG_ANALYZER_URL 
+    TEXT_ANALYTICS_KEY, TEXT_ANALYTICS_URL, DIALOG_ANALYZER_CLIENTID, DIALOG_ANALYZER_KEY , DIALOG_ANALYZER_URL ,process.env.APPINSIGHTS_INSTRUMENTATIONKEY
     );
 
 // QnAClient allows simple question and answer style responses.
