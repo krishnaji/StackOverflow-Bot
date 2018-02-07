@@ -8,7 +8,7 @@ const appInsights = require("applicationinsights");
 appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY);
 appInsights.start();
 
-// this is to just show change.
+// this is to just show change1.
 // Misc.1
 global.attachments = require('./lib/attachments');
 global.jokes = require('./data/jokes.json');
