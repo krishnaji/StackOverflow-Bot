@@ -7,7 +7,8 @@ require('dotenv').config()
 const appInsights = require("applicationinsights");
 appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY);
 appInsights.start();
-
+const telemetry = appInsights.defaultClient;
+var os = require('os');
 // this is to just show change1.
 // Misc.1
 global.attachments = require('./lib/attachments');
@@ -129,12 +130,12 @@ bot.on('conversationUpdate', (message) => {
         if (identity.id !== message.address.bot.id) {
             return;
         }
-
+        telemetry.trackTrace({message: `Started Chat on ${os.hostname()}`});
         bot.send(new builder.Message()
             .address(message.address)
             .text(`👋 Hello! I'm Stack Overflow's Resident Expert Bot 🤖 \
                 and I'm here to help you find questions, answers, or to \
-                just entertain you with a joke. Go ahead - ask me something!`
+                just entertain you with a joke.Go ahead - ask me something!${os.hostname()}.`
             ));
     });
 });
