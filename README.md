@@ -5,6 +5,7 @@ This Bot is intended to demonstrate a number of integrations between Microsoft B
 
 Bot Framework allows you to build bots using a simple, but comprehensive API. The Bots you build can be configured to work for your users wherever they are, whether it's Skype, Microsoft Teams, Cortana, Slack or more. To learn more about Bot Framework, visit https://dev.botframework.com/. To learn more about developing bots with the Bot Framework, visit https://docs.microsoft.com/en-us/bot-framework/#pivot=main&panel=developing.
 
+Note: this repo is adapted from BotFramework [samples](https://github.com/Microsoft/BotFramework-Samples)
 ## Components
 
 ### [StackBot](https://github.com/krishnaji/StackOverflow-Bot/wiki/Set-Up#bot)
