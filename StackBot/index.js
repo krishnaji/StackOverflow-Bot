@@ -9,10 +9,13 @@ appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY);
 appInsights.start();
 const telemetry = appInsights.defaultClient;
 var os = require('os');
+var parseString = require('xml2js').parseString;
 // this is to just show change1.
 // Misc.1
 global.attachments = require('./lib/attachments');
 global.jokes = require('./data/jokes.json');
+// Pinboard client 
+const PBClient = require('./lib/pbclient');
 
 // Cognitive Service Clients.
 const QnAClient = require('./lib/qnaclient');
@@ -34,6 +37,7 @@ const TEXT_ANALYTICS_URL = process.env.TEXT_ANALYTICS_URL;
 const DIALOG_ANALYZER_CLIENTID = process.env.DIALOG_ANALYZER_CLIENTID;
 const DIALOG_ANALYZER_KEY = process.env.DIALOG_ANALYZER_KEY;
 const DIALOG_ANALYZER_URL = process.env.DIALOG_ANALYZER_URL;
+const PINBOARD_AUTHTOKEN = process.env.PINBOARD_AUTHTOKEN;
 
 // Check to see if the environment has been set.
 if (!(BOTBUILDER_APP_ID &&
@@ -48,11 +52,11 @@ if (!(BOTBUILDER_APP_ID &&
     TEXT_ANALYTICS_URL &&
     DIALOG_ANALYZER_CLIENTID &&
     DIALOG_ANALYZER_KEY &&
-    DIALOG_ANALYZER_URL
+    DIALOG_ANALYZER_URL && PINBOARD_AUTHTOKEN
 )) {
     console.log(`Missing one of BOTBUILDER_APP_ID, BOTBUILDER_APP_PASSWORD, \
     LUIS_MODEL, KB_ID, QNA_KEY, QNA_URL, BING_SEARCH_CONFIG, BING_SEARCH_KEY, \
-    TEXT_ANALYTICS_KEY, TEXT_ANALYTICS_URL, DIALOG_ANALYZER_CLIENTID, DIALOG_ANALYZER_KEY or DIALOG_ANALYZER_URL \
+    TEXT_ANALYTICS_KEY, TEXT_ANALYTICS_URL, DIALOG_ANALYZER_CLIENTID, DIALOG_ANALYZER_KEY or DIALOG_ANALYZER_URL or PINBOARD_AUTHTOKEN\
     in environment variables!`);
     process.exit(1);
 }
@@ -84,6 +88,11 @@ global.dialogAnalyzerClient = new DialogAnalyzerClient({
     clientId: DIALOG_ANALYZER_CLIENTID,
     key: DIALOG_ANALYZER_KEY,
     url: DIALOG_ANALYZER_URL
+});
+
+// Search tag in your Pinboard account
+global.pbClient = new PBClient({
+    authToken:PINBOARD_AUTHTOKEN
 });
 
 // Setup Restify Server
@@ -135,7 +144,7 @@ bot.on('conversationUpdate', (message) => {
             .address(message.address)
             .text(`👋 Hello! I'm Stack Overflow's Resident Expert Bot 🤖 \
                 and I'm here to help you find questions, answers, or to \
-                just entertain you with a joke.Go ahead - ask me something!${os.hostname()}.`
+                just entertain you with a joke. Go ahead - ask me something!${os.hostname()}.`
             ));
     });
 });
@@ -208,6 +217,58 @@ global.cleanQueryString = (query, removePunctuation) => {
     return retQuery.trim();
 }
 
+global.pinBoardSearchQuery = async (session, args) => {
+    session.send("Searching your Pinboard...");
+    session.sendTyping();
+
+    if (!args) {
+        return;
+    }
+
+    if (!args.query) {
+        return;
+    }
+
+    // Start and wait for Bing Search results.
+    let searchResults = await fetchPinBoardSearchResults(args.query);
+
+    // Process search results
+    if (searchResults && searchResults.length > 0) {
+        session.send("I found the following results from your Pinboard...");
+        session.send(attachments.buildResultsMessageWithAttachments(session, searchResults));
+        return session.endDialog("Feel free to ask me another question,search your Pinboard tag, or even ask for a joke!");
+    } else {
+        return session.endDialog('Sorry… couldnt find any results for your query! 🤐');
+    }
+}
+
+
+
+
+global.fetchPinBoardSearchResults = async (query) => {
+    var searchResults = [];
+    await pbClient.get({ searchText: query.split(' ')[1] }, (err, res) => {
+        
+        if (err) {
+                    console.error('Error from callback:', err);
+                } else if (res) {
+        parseString(res, function (err, result) {
+            for (var post in result.posts.post){
+            var respond = {
+                title: result.posts.post[post].$.description,
+                link: result.posts.post[post].$.href,
+                body_markdown : ""
+
+            };
+
+            searchResults.push(respond);
+        }
+        });
+        }
+        });
+    return searchResults;
+}
+
 // Dialogs
 require('./dialogs/brain')();
 require('./dialogs/joke')();
@@ -217,3 +278,4 @@ require('./dialogs/menu')();
 require('./dialogs/screenshot')();
 require('./dialogs/search')();
 require('./dialogs/smalltalk')();
+require('./dialogs/pinboard')();
