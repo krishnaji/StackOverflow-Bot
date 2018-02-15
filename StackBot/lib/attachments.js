@@ -79,10 +79,16 @@ const buildMenuMessageWithAttachments = (session) => {
             buttonText: "I need help with a screenshot… 🤔",
         },
         {
+            title: "Pinboard tag search",
+            text: "Just type /pinboard tagname. I will comeback with all matching tags from your Pinboard account",
+            buttonText: "🔍 📍 🤔",
+        },
+        {
             title: "Tell a Joke",
             text: "Over the years, I have collected a few developer jokes; want to hear one?",
             buttonText: "Brighten my day 😀",
         }
+
     ];
 
     for (let i = 0; i < mainMenu.length; i++) {
