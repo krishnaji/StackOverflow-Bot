@@ -238,7 +238,7 @@ global.pinBoardSearchQuery = async (session, args) => {
         session.send(attachments.buildResultsMessageWithAttachments(session, searchResults));
         return session.endDialog("Feel free to ask me another question,search your Pinboard tag, or even ask for a joke!");
     } else {
-        return session.endDialog('Sorry… couldnt find any results for your query! 🤐');
+        return session.endDialog('Sorry… couldnt find any results for your query! 🤐. Give this /pinboard #cicd');
     }
 }
 

@@ -81,7 +81,7 @@ const buildMenuMessageWithAttachments = (session) => {
         {
             title: "Pinboard tag search",
             text: "Just type /pinboard tagname. I will comeback with all matching tags from your Pinboard account",
-            buttonText: "🔍 📍 🤔",
+            buttonText: "Pinboard",
         },
         {
             title: "Tell a Joke",
